@@ -1,0 +1,8 @@
+Exception in thread Thread-1 (most likely raised during interpreter shutdown):
+Traceback (most recent call last):
+  File "/usr/lib/python2.6/threading.py", line 532, in __bootstrap_inner
+  File "/usr/lib/python2.6/threading.py", line 484, in run
+  File "/home/ant/git/NANHOU-PROJECT/events.py", line 122, in eventCycle
+  File "./main.py", line 42, in quitHandler
+<type 'exceptions.TypeError'>: 'NoneType' object is not callable
+
