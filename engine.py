@@ -8,14 +8,39 @@ from functools import wraps
 #or support the functionality of its respective type, but the generic type specfically refers 
 #to entities that do not fall into any other category.
 
+#if the tuple (etype, etype) is in the table, the corresponding function will be called
+
 enemy = 0
 point = 1
 ebullet = 2
 generic = 3
 pbullet = 4
-typeStr = ['enemy', 'point item', 'player bullet', 'enemy bullet', 'generic entity']
+player = 5
+typeStr = ['enemy', 'point item', 'player bullet', 'enemy bullet', 'generic entity', 'player']
 
-nTypes = 5
+nTypes = 6
+
+collisionTable = {}
+    
+def enemyVpBullet(enemy, pBullet):
+    enemy.hp -= pBullet.damage
+    if enemy.hp <= 0: enemy.expired = True
+    pBullet.expired = True
+collisionTable[(enemy,pbullet)] = enemyVpBullet
+
+def enemyVplayer(enemy, player):
+    if enemy.canDamage == True: player.hit = True
+collisionTable[(enemy, player)] = enemyVplayer
+
+def pointVplayer(point, player):
+    point.applyItem(player)
+collisionTable[(point, player)] = pointVplayer
+
+def eBulletVplayer(ebullet, player):
+    if ebullet.damage > 0:
+        player.die()
+        ebullet.expired = True
+collisionTable[ebullet, player] = eBulletVplayer
 
 pauseScreen = pygame.image.load('pausescreen.png')
 
@@ -138,6 +163,17 @@ class Engine():
     	main.tsprint('ENGINE: stopped')
         if not skipLock: self.lock.release()
    
+    def setPlayer(self, p):
+        self.setPlayers([p])
+   
+    @sync
+    def setPlayers(self, p):
+        self.eList[player] = p
+    
+    @sync
+    def getPlayers(self):
+        return self.eList[player]
+   
     @sync
     def engineLoop(self):
         #handle control
@@ -167,7 +203,10 @@ class Engine():
                     
         #collision detection
         
-        collision.disjoint(self.eList[ebullet], self.eList[enemy], None, None, enemyBulletTest)
+        for pair in collisionTable:
+            typeA, typeB = pair
+            collision.disjoint(self.eList[typeA], self.eList[typeB], None, None, collisionTable[pair])
+        
         
         #update
         
@@ -192,6 +231,15 @@ class Engine():
                 e.move()
         self.frameCount += 1
         self.handleFPS()
+        
+        #shoot
+        
+        for e in self.eList[enemy]:
+            if e.canShoot():
+                self.eList[ebullet].extend(e.shoot())
+        for p in self.eList[player]:
+            if p.canShoot():
+                self.eList[pbullet].extend(p.shoot())
     @levelOverCheck
     def getFrameCount(self):
         return self.frameCount
@@ -275,12 +323,12 @@ class Engine():
 
 def drawList(entityList, surface, frame):
     for entity in entityList:
+        if entity.opacity <= 0 or entity.animator == None:
+            return
         sprite = entity.getCurrentSprite(frame)
         width, height = sprite.get_size()
         if entity.opacity >= 255:
             surface.blit(sprite, (entity.x-width/2, entity.y-height/2))
-        elif entity.opacity <= 0:
-            return
         else:
             #http://www.nerdparadise.com/tech/python/pygame/blitopacity/
             temp = pygame.Surface((640, 480)).convert()
@@ -295,10 +343,6 @@ def isNotExpired(l):
     
 def isExpired(l):
     return l.expired
-    
-def enemyBulletTest(enemybullet, enemy):
-    enemy.expired = True
-    enemybullet = True
     
 
 

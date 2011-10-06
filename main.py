@@ -4,7 +4,7 @@ The main module that runs the danmaku program. In this version, it just does ini
 and level.
 """
 
-import pygame, pygame.event, pygame.image, pygame.display, engine
+import pygame, pygame.event, pygame.image, pygame.display, engine, player
 import EntityTypes, events, sys, threading, SoundHandler, animation
 from functools import wraps
 import yappi
@@ -81,7 +81,11 @@ def mainMethod():
     animation.mainEngine = mainEngine
     eventHandler.setQuitHandler(quitHandler, (mainEngine, eventHandler))
     
-    eventHandler.startThread()    
+    #create player and add to engine
+    mainPlayer = player.Player(eventHandler.getControlState()) 
+    
+    eventHandler.startThread()
+    mainEngine.setPlayer(mainPlayer)    
     mainEngine.startEngineThread()    
         
     if not hasattr(level, 'runLevel'):

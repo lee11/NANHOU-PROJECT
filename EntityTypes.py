@@ -1,5 +1,4 @@
-import pygame, animation
-
+import pygame, vector
 class Entity(object):
     '''
     An object that exists in 2D game space and may be drawable to the screen. The edge methods define
@@ -15,17 +14,14 @@ class Entity(object):
         #radius defines the size of hit-circle for the purposes of collision detection
         self.radius = radius
         #animation will change based on which direction the entity is moving in
-        self.curdir = animation.getDirectionPrefix(self.dx,self.dy)
+        self.curdir = vector.getDirectionPrefix(self.dx,self.dy)
         
-        #currently this is only an SDL surface (bitmap image). Entity will eventually support hold an
-        #animator object which will support animaiton
         self.animator = animator
-        self.animator.setAnimation('i')
+        if animator is not None: self.animator.setAnimation('i')
         self.opacity = 255
         ################################
         #To add:
         #rotation - for specifying the rotation of the sprite
-        #replace sprite with animator to support animation
         #allow for the use of polar velocity / acceleration as
         #well as rectangular
         ################################
@@ -49,7 +45,7 @@ class Entity(object):
         
         #The animation will reset at the beginning if it 
         
-        newdir = animation.getDirectionPrefix(self.dx,self.dy)
+        newdir = vector.getDirectionPrefix(self.dx,self.dy)
             
         if self.curdir != newdir:
             self.curdir = newdir
@@ -97,4 +93,33 @@ class Bullet(Entity):
         #The amount of damage a bullet is capable of doing. For enemy bullets, any
         #value that evaluates to True means the bullet will kill the player on contact
         self.damage = damage
+
+def nullItem(p, value):
+    pass 
         
+def oneUp(p, value):
+    p.lives += vlaue
+def point(p, value):
+    p.points += value
+def bombs(p, value):
+    p.bombs += value
+def power(p, value):
+    p.power += value        
+class PointItem(Entity):
+    NULL=0
+    ONEUP=1
+    POINT=2
+    BOMB=3
+    POWER=4
+    N_TYPES = 5
+    itemTable = [nullItem, oneUp, point, bombs, power]
+    def __init__(self, animator, pos, vel=(0,0), accel=(0,0), radius=0, pType=NULL, value=0):
+        super(PointItem, self).__init__(animator, pos, vel, accel, radius)
+        if pType < 0 or pType >= PointItem.N_TYPES:
+            raise ValueError("Invalid PointItem type.") 
+        self.type = pType
+        self.value = value
+    def applyItem(self, player):
+        #by default, applyItem will apply the effect of the point item for one of the default types
+        #a subtype can override applyItem to make it have a different effect
+        PointItem[self.type](player, self.value)
