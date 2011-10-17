@@ -11,6 +11,7 @@ class Entity(object):
         self.x, self.y = pos
         self.dx, self.dy = vel
         self.ddx, self.ddy = accel
+        self.doNotDraw = False
         #radius defines the size of hit-circle for the purposes of collision detection
         self.radius = radius
         #animation will change based on which direction the entity is moving in
@@ -42,14 +43,28 @@ class Entity(object):
         Any subtype that overrides this method should call the super version so that animation still handled
         correctly
         '''
-        
-        #The animation will reset at the beginning if it 
+    def draw(self, frame, surface):
+        '''Draw the current frame of animation to a give surface'''
+        if self.opacity <= 0 or not self.animator or self.doNotDraw:
+            return
+        sprite = self.getCurrentSprite(frame)
+        width, height = sprite.get_size()
+        if self.opacity >= 255:
+            surface.blit(sprite, (self.x-width/2, self.y-height/2))
+        else:
+            #http://www.nerdparadise.com/tech/python/pygame/blitopacity/
+            temp = pygame.Surface((640, 480)).convert()
+            temp.blit(surface, (self.x*-1, self.y*-1))
+            temp.blit(sprite, (0,0))
+            temp.set_alpha(self.opacity)
+            surface.blit(temp, (self.x, self.y))
         
         newdir = vector.getDirectionPrefix(self.dx,self.dy)
             
         if self.curdir != newdir:
             self.curdir = newdir
             self.animator.setAnimation(newdir)
+    
     def getCurrentSprite(self, nFrames):
         return self.animator.getCurrentImage(nFrames)
     def leftEdge(self):
@@ -63,15 +78,16 @@ class Entity(object):
     def isCollision(self, other):
         return (self.radius+other.radius)**2 > (self.x-other.x)**2+(self.y-other.y)**2
     def getDistance(self, pos):
+        '''Get the distance to a Cartiesial position tuple.'''
         x, y, = pos
         return ((self.x - x)**2 + (self.y - y) **2)**0.5
-    #This will be called after the object has been expired, when it is removed from gameplay.
-    #It should return a list of tuples, where the first entry of each tuple is a type as defined
-    #in engine (e.g. engine.POINT) and the second is a list of items of this type to be added 
-    #to the game
     def release(self):
+        '''This will be called after the object has been expired, right before it is removed from gameplay.
+        It should return a list of tuples, where the first entry of each tuple is an engine type constant (e.g. engine.POINT) and the second is a list of items of this type to be added 
+        to the game'''
         return []
     def setPolarVel(self, r, theta):
+        '''Set the polar velocity of an Entity'''
         self.dx = r*cos(theta)
         self.dy = r*sin(theta)
 class Enemy(Entity):
@@ -81,12 +97,12 @@ class Enemy(Entity):
         self.canDamage = True
         #Decremented based on damage
         self.hp = hp
-    #Will be polled to determine if the object is ready to shoot    
     def canShoot(self):
+        '''This will be polled to determine if the object is ready to shoot''' 
         return False
-    #Should return a list of bullets that will be added to gameplay
-    def shoot(self):
-        return []
+        def shoot(self):
+            '''This should return a list of bullets that will be added to gameplay'''
+            return []
 class Bullet(Entity):
     def __init__(self, animator, pos, vel=(0,0), accel=(0,0), radius=0, damage=1):
         super(Bullet, self).__init__(animator, pos, vel, accel, radius)
@@ -94,9 +110,10 @@ class Bullet(Entity):
         #value that evaluates to True means the bullet will kill the player on contact
         self.damage = damage
 
+
+
 def nullItem(p, value):
-    pass 
-        
+    pass         
 def oneUp(p, value):
     p.lives += vlaue
 def point(p, value):
@@ -105,6 +122,8 @@ def bombs(p, value):
     p.bombs += value
 def power(p, value):
     p.power += value        
+
+
 class PointItem(Entity):
     NULL=0
     ONEUP=1

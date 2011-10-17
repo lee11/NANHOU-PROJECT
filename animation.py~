@@ -64,8 +64,10 @@ class Animator(object):
         self.frameInterval = frames
         
     def setAnimation(self, prefix, frameInterval = 1, index=0, loop=True):
+        if not prefix in self.animationList:
+            raise ValueError("Prefix not in animation list.")
         self.currentFrame = index
-	self.frameInterval = frameInterval
+        self.frameInterval = frameInterval
         self.lastKnownPrefix = prefix
         self.startFrame = mainEngine.getFrameCount()
         self.animationList[prefix].start()

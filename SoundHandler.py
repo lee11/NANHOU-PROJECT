@@ -4,21 +4,35 @@ pygame.mixer.init()
 
 soundTable = {}
 def load(file):
+    '''
+    Load a sound file, or return a cached copy.
+    '''
     if file in soundTable:
         return soundTable[file]
     else:
         soundTable[file] = pygame.mixer.Sound(file)
         return soundTable[file]
 def pauseAll():
+    '''
+    Pause all sounds, including the current music
+    '''
     pygame.mixer.pause()
     pygame.mixer.music.pause()
 def unpauseAll():
+    '''
+    Resume all sounds, including the current music.
+    '''
     pygame.mixer.unpause()
     pygame.mixer.music.unpause()
 def stopAll():
+    '''
+    Stop all sounds that are playing.
+    '''
     pygame.mixer.stop()
-    
 def play(sound, volume):
+    '''
+    Play a sound
+    '''
     #todo: set volume for sound effects based on game setting
     sound.set_volume(volume)
     sound.play()

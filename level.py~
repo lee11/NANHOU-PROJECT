@@ -1,4 +1,4 @@
-import EntityTypes, pygame, time, engine, random, SoundHandler, danmaku, animation, pattern
+import EntityTypes, pygame, time, engine, random, SoundHandler, main, animation, pattern
 
 def getVel():
     return (random.randrange(-2, 2, 1), random.randrange(-2, 2, 1))

@@ -11,6 +11,7 @@ class Entity(object):
         self.x, self.y = pos
         self.dx, self.dy = vel
         self.ddx, self.ddy = accel
+        self.doNotDraw = False
         #radius defines the size of hit-circle for the purposes of collision detection
         self.radius = radius
         #animation will change based on which direction the entity is moving in
@@ -42,14 +43,27 @@ class Entity(object):
         Any subtype that overrides this method should call the super version so that animation still handled
         correctly
         '''
+    def draw(self, frame, surface):
+        if self.opacity <= 0 or not self.animator or self.doNotDraw:
+            return
+        sprite = self.getCurrentSprite(frame)
+        width, height = sprite.get_size()
+        if self.opacity >= 255:
+            surface.blit(sprite, (self.x-width/2, self.y-height/2))
+        else:
+            #http://www.nerdparadise.com/tech/python/pygame/blitopacity/
+            temp = pygame.Surface((640, 480)).convert()
+            temp.blit(surface, (entity.x*-1, entity.y*-1))
+            temp.blit(sprite, (0,0))
+            temp.set_alpha(entity.opacity)
+            surface.blit(temp, (entity.x, entity.y))
         
-        #The animation will reset at the beginning if it 
-        
-        newdir = animation.getDirectionPrefix(self.dx,self.dy)
+        newdir = vector.getDirectionPrefix(self.dx,self.dy)
             
         if self.curdir != newdir:
             self.curdir = newdir
             self.animator.setAnimation(newdir)
+    
     def getCurrentSprite(self, nFrames):
         return self.animator.getCurrentImage(nFrames)
     def leftEdge(self):

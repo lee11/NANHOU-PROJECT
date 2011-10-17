@@ -17,15 +17,19 @@ RESPAWNED = 4
 N_STATES = 5 
 
 #the number of frames that a given transition should last for 
+
 DYING_TIME = 30
 GONE_TIME = 10
 APPEARING = 30
 RESPAWNED =120  
 
-FLICKER_INTERVAL = 10 
+FLICKER_INTERVAL = 10
+
+def stateCheck(state):
+    if state < 0 or state >= N_STATES:
+        raise ValueError("Invalid state value.")
 
 #TODO: add state for counterbomb window, bombing
-
 
 class Player(EntityTypes.Entity):
     DEFAULT_MOVE = 4
@@ -36,7 +40,6 @@ class Player(EntityTypes.Entity):
     bulletDamage = 5
     DEFAULT_LIVES = 5
     DEFAULT_BOMBS = 3
-    bulletSpriteInfo = (['i'], '.png', './playerbulletanim')
     def __init__(self, controlState):
 
         super(Player, self).__init__(None, (0,0))
@@ -48,7 +51,6 @@ class Player(EntityTypes.Entity):
         self.state = OK
         self.power = 0
         self.lastShot= 0
-        self.currentAnimation = OK
         #This will be set if the player hits anything
         self.hit = False
         #will need to consider how we are setting the different animations
@@ -67,26 +69,28 @@ class Player(EntityTypes.Entity):
     #this should take a list of tuples, each of which contains the 
     #state followed by the animator to set for that state
     
-    def parseSounds(self, tList):
+    def setSounds(self, tList):
         for t in tList:
             self.setSound(t)
+    def getCurrentSprite(self, nFrames):
+        checkState(self.state)
+        return self.animations[self.state].getCurrentImage(nFrames)
     
-    def parseAnimations(self, tList):
+    def setAnimations(self, tList):
         for t in tList:
             self.setAnimation(t)
             
     def setSound(self, state, sound):
+        checkState(state)
         self.transitionSounds[state] = SoundHandler.load(sound)
     
     def setAnimation(self, state, animation):
-        if state < 0 or state >= N_STATES:
-            main.tsprint("PLAYER: Invalid state for set animation.") 
-            raise ValueError
+        checkState(state)
         self.animations[state] = animation
-    def updateDir(self, d):
-        if d != self.dir:
+    def updateDir(self, newdir):
+        if newdir != self.dir:
             self.changedDir = True
-            self.dir = d
+            self.dir = newdir
     def move(self):
         if self.state != OK and self.state != RESPAWNED: return
         noHorizontal, noVertical = False, False
@@ -149,27 +153,11 @@ class Player(EntityTypes.Entity):
                 self.state = OK
         if self.animations[self.state] == None:
             self.doNotDraw = True #will need to add this to EntityTypes
-        else: self.animator = self.animation[self.state]
-    
-        
-
-        
-    
+        else: self.animator = self.animations[self.state]
     def canShoot(self):
-        return self.lastShot >= self.shotIntervalTicks
-        
+        return self.lastShot >= self.shotIntervalTicks and self.controlState.shotPressed()
     def shoot(self):
-        b = []
-        b.append(EntityTypes.Bullet(animation.Animator(self.bulletSpriteInfo[0], self.bulletSpriteInfo [1],self.bulletSpriteInfo[2]), (self.x, self.y), vel=(0,self.bulletSpeed*-1), radius=self.bulletRadius, damage=self.bulletDamage))
-        
-        
-        b.append(EntityTypes.Bullet(animation.Animation(self.bulletSpriteInfo[0], self.bulletSpriteInfo[1],self.bulletSpriteInfo[2]), (self.x, self.y), vel=(self.bulletSpeed*-1,self.bulletSpeed*-1), radius=self.bulletRadius, damage=self.bulletDamage))
-        
-        
-        b.append(EntityTypes.Bullet(animation.Animator(self.bulletSpriteInfo[0], self.bulletSpriteInfo[1],self.bulletSpriteInfo[2]), (self.x, self.y), vel=(self.bulletSpeed,self.bulletSpeed*-1), radius=self.bulletRadius, damage=self.bulletDamage))
-        
-        self.lastShot = 0
-        return b
+        return []
     #this method will be called whenever the player has been hit. this should cause the player object
     #to undrgo all of the "dying" effects
      #TODO: add counter bomb timer when bombing is added
@@ -179,4 +167,5 @@ class Player(EntityTypes.Entity):
         if self.state != OK:
             main.tsprint("PLAYER: Error: die method called when player is not in OK state.")
        
-        self.state = DYING        
+        self.state = DYING   
+        self.stateTime=0     

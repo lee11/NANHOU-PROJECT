@@ -1,0 +1,356 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>EntityTypes.Entity : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">E.Entity(<span title="object">object</span>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="EntityTypes.html">EntityTypes</a></span>
+      
+      <a href="classIndex.html#EntityTypes.Entity">View In Hierarchy</a>
+    </p>
+    <div>
+      <p>Known subclasses: <a href="EntityTypes.Bullet.html">EntityTypes.Bullet</a>, <a href="EntityTypes.Enemy.html">EntityTypes.Enemy</a>, <a href="EntityTypes.PointItem.html">EntityTypes.PointItem</a>, <a href="level2.Fairy.html">level2.Fairy</a>, <a href="player.Player.html">player.Player</a></p>
+    </div>
+    <div>An object that exists in 2D game space and may be drawable to the 
+screen. The edge methods define the behaviour of the object upon hitting 
+one of the four edges. The default behaviour is to expire the object.<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id12">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#__init__">__init__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#move">move</a></td>
+    <td><span>This method defines movement (changing the position) of an Entity. Any 
+class that</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#update">update</a></td>
+    <td><span>This is the method where any special logic will be run once per frame to
+update the entity.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#draw">draw</a></td>
+    <td><span>Draw the current frame of animation to a give surface</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#getCurrentSprite">getCurrentSprite</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#leftEdge">leftEdge</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#rightEdge">rightEdge</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#topEdge">topEdge</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#bottomEdge">bottomEdge</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#isCollision">isCollision</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#getDistance">getDistance</a></td>
+    <td><span>Get the distance to a Cartiesial position tuple.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#release">release</a></td>
+    <td><span>This will be called after the object has been expired, right before it 
+is removed from gameplay.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#setPolarVel">setPolarVel</a></td>
+    <td><span>Set the polar velocity of an Entity</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="EntityTypes.Entity.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __init__(self, animator, pos, vel=(0, 0), accel=(0, 0), radius=0):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="EntityTypes.Bullet.html">EntityTypes.Bullet</a>, <a href="EntityTypes.Enemy.html">EntityTypes.Enemy</a>, <a href="EntityTypes.PointItem.html">EntityTypes.PointItem</a>, <a href="level2.Fairy.html">level2.Fairy</a>, <a href="player.Player.html">player.Player</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="EntityTypes.Entity.move">
+    
+  </a>
+  <a name="move">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    move(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="player.Player.html">player.Player</a></div>
+    <div>This method defines movement (changing the position) of an Entity. Any 
+class that overrides this method should also call the original version if 
+the class uses the built-in velocity or acceleration.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="EntityTypes.Entity.update">
+    
+  </a>
+  <a name="update">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    update(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="player.Player.html">player.Player</a></div>
+    <div>This is the method where any special logic will be run once per frame to
+update the entity. Any subtype that overrides this method should call the 
+super version so that animation still handled correctly<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="EntityTypes.Entity.draw">
+    
+  </a>
+  <a name="draw">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    draw(self, frame, surface):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Draw the current frame of animation to a give surface<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="EntityTypes.Entity.getCurrentSprite">
+    
+  </a>
+  <a name="getCurrentSprite">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    getCurrentSprite(self, nFrames):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="player.Player.html">player.Player</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="EntityTypes.Entity.leftEdge">
+    
+  </a>
+  <a name="leftEdge">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    leftEdge(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="level.FairyBullet.html">level.FairyBullet</a>, <a href="player.Player.html">player.Player</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="EntityTypes.Entity.rightEdge">
+    
+  </a>
+  <a name="rightEdge">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    rightEdge(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="level.FairyBullet.html">level.FairyBullet</a>, <a href="player.Player.html">player.Player</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="EntityTypes.Entity.topEdge">
+    
+  </a>
+  <a name="topEdge">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    topEdge(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="level.FairyBullet.html">level.FairyBullet</a>, <a href="player.Player.html">player.Player</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="EntityTypes.Entity.bottomEdge">
+    
+  </a>
+  <a name="bottomEdge">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    bottomEdge(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="level.FairyBullet.html">level.FairyBullet</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="EntityTypes.Entity.isCollision">
+    
+  </a>
+  <a name="isCollision">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    isCollision(self, other):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="EntityTypes.Entity.getDistance">
+    
+  </a>
+  <a name="getDistance">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    getDistance(self, pos):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Get the distance to a Cartiesial position tuple.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="EntityTypes.Entity.release">
+    
+  </a>
+  <a name="release">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    release(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overridden in <a href="level.Fairy.html">level.Fairy</a></div>
+    <div>This will be called after the object has been expired, right before it 
+is removed from gameplay. It should return a list of tuples, where the 
+first entry of each tuple is an engine type constant (e.g. engine.POINT) 
+and the second is a list of items of this type to be added to the game<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="EntityTypes.Entity.setPolarVel">
+    
+  </a>
+  <a name="setPolarVel">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    setPolarVel(self, r, theta):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Set the polar velocity of an Entity<table class="fieldTable"></table></div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for animation/Character/collision/dialogueB/dialogue/engine/EntityTypes/events/level2/level/main/pattern/player/reimu/SoundHandler/vector, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-10-14 19:13:30.
+    </address>
+  </body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>events.EventHandler : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">e.EventHandler(<span title="object">object</span>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="events.html">events</a></span>
+      
+      <a href="classIndex.html#events.EventHandler">View In Hierarchy</a>
+    </p>
+    <div>
+      
+    </div>
+    <div>This object will represent an event handler, which will run in another 
+thread. It will handle events including keyboard presses and QUIT 
+events.<table class="fieldTable"></table></div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id21">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="events.EventHandler.html#__init__">__init__</a></td>
+    <td><span>Creates an object for handling events. the quit notifier is the function
+that will</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="events.EventHandler.html#getControlState">getControlState</a></td>
+    <td><span>get a return to the control state for the keyboard</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="events.EventHandler.html#eventCycle">eventCycle</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="events.EventHandler.html#handleEvents">handleEvents</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="events.EventHandler.html#setQuitHandler">setQuitHandler</a></td>
+    <td><span>This sets the function +args that will be called when the event handler 
+receives a QUIT event.</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="events.EventHandler.html#startThread">startThread</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="events.EventHandler.html#stopThread">stopThread</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="events.EventHandler.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __init__(self, eventsSource=pygame.event.get):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>Creates an object for handling events. the quit notifier is the function
+that will be called when the event handler sees a pygame.quit event. the 
+eventsSource is a functoin that the EventHandler cal poll for a list of new
+events (by default this will be pygame.events.get)<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="events.EventHandler.getControlState">
+    
+  </a>
+  <a name="getControlState">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    getControlState(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>get a return to the control state for the keyboard<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="events.EventHandler.eventCycle">
+    
+  </a>
+  <a name="eventCycle">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    eventCycle(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="events.EventHandler.handleEvents">
+    
+  </a>
+  <a name="handleEvents">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    handleEvents(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="events.EventHandler.setQuitHandler">
+    
+  </a>
+  <a name="setQuitHandler">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    setQuitHandler(self, func, args):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div>This sets the function +args that will be called when the event handler 
+receives a QUIT event.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="events.EventHandler.startThread">
+    
+  </a>
+  <a name="startThread">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    startThread(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="events.EventHandler.stopThread">
+    
+  </a>
+  <a name="stopThread">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    stopThread(self):
+    
+  </div>
+  <div class="functionBody">
+    
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for animation/Character/collision/dialogueB/dialogue/engine/EntityTypes/events/level2/level/main/pattern/player/reimu/SoundHandler/vector, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-10-14 19:13:30.
+    </address>
+  </body>
+</html>

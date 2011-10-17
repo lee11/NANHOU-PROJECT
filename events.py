@@ -22,6 +22,9 @@ KEYBOMB = 6
 KEYPAUSE = 7
 
 class ControlState:
+    '''
+    The controlState object keeps track of which buttons (logically, rather than specific keys) are being pressed.
+    '''
     def __init__(self):
         self.keyup = False 
         self.keydown = False
@@ -50,6 +53,9 @@ class ControlState:
 
     #This method is slower and requires polling, but it solves the problem of keys "sticking" in the down state  
     def readKeyState(self):
+        '''
+        Poll the input device. 
+        '''
         keyList = pygame.key.get_pressed()
         self.keypause = keyList[pygame.K_ESCAPE]
         self.keyup = keyList[pygame.K_UP]
@@ -60,6 +66,9 @@ class ControlState:
         self.keybomb = keyList[pygame.K_x]
         self.keyslow = keyList[pygame.K_LSHIFT]
     def handleKeyPress(self, e):
+        '''
+        Handle key press event queue.
+        '''
         if e.type == pygame.KEYDOWN:
             if e.key == pygame.K_ESCAPE :
                 self.keypause = True
@@ -98,6 +107,9 @@ class ControlState:
                 self.keyslow = True
 
 class EventHandler(object):
+    '''
+    This object will represent an event handler, which will run in another thread. It will handle events including keyboard presses and QUIT events.
+    '''
     sleepInterval = 0.005
     def __init__(self, eventsSource=pygame.event.get):
         '''
@@ -112,6 +124,7 @@ class EventHandler(object):
         self.quit = False
         self.handleQuit =False
     def getControlState(self):
+        '''get a return to the control state for the keyboard'''
         return self.controlState
     def eventCycle(self):
         while not self.quit:
@@ -132,6 +145,7 @@ class EventHandler(object):
             #   self.controlState.handleKeyPress(e)
             self.controlState.readKeyState()
     def setQuitHandler(self, func, args):
+        '''This sets the function +args that will be called when the event handler receives a QUIT event.''' 
         self.quitNotifier = func
         self.quitNotifierArguments = args
     def startThread(self):

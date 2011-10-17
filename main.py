@@ -5,21 +5,25 @@ and level.
 """
 
 import pygame, pygame.event, pygame.image, pygame.display, engine, player
-import EntityTypes, events, sys, threading, SoundHandler, animation
+import EntityTypes, events, sys, threading, Character, reimu, SoundHandler, animation
 from functools import wraps
 import yappi
 
+screenW = 640
+screenH = 480
 
-#regular print is not threadsafe. Other threads may be printing, so use this
+WINSIZE=(screenW,screenH)
+
+
 def tsprint(str):
+    '''This is a thread-safe print. It used instead of regular print. It locks, so be careful for very large prints.'''
     tsprint.tsprintLock.acquire()
     print str
     tsprint.tsprintLock.release()
 tsprint.tsprintLock = threading.Lock()
 def quitHandler(engineReference, eventHandler):
-    #quitHandler will be called at the end of the program as well as the
-    #handler for a pygame.QUIT event. We want to make sure that the quit handler
-    #only runs once.
+    '''quitHandler will be called at the end of the program as well as the
+    handler for a pygame.QUIT event. It sound only run once.'''
     if quitHandler.quitting: return
     quitHandler.quitting = True
     tsprint('MAIN: quit handler started.')
@@ -47,7 +51,13 @@ def quitHandler(engineReference, eventHandler):
 quitHandler.quitting = False
 
 def mainMethod():
-    WINSIZE=(640,480)
+
+    #parser = argparse.ArgumentParser(descrption='NANHOU PROJECT v0.1.0b')
+    #parser.add_argument('profile', metavar="PROFILE_DATA", type=str, nargs='*',
+    #help="Determine the file to output YAPPI profiling data. Or YAPPI will be disabled if no argument.")
+    #args = parser.parse_args()
+    #print args
+
     COLORDEPTH=32
     quitHandler.profilingDest = 'profile.txt'
     tsprint('MAIN: Starting YAPPI profiler')
@@ -82,12 +92,12 @@ def mainMethod():
     eventHandler.setQuitHandler(quitHandler, (mainEngine, eventHandler))
     
     #create player and add to engine
-    mainPlayer = player.Player(eventHandler.getControlState()) 
+    mainPlayer = reimu.PlayerClass(eventHandler.getControlState()) 
     
     eventHandler.startThread()
     mainEngine.setPlayer(mainPlayer)    
     mainEngine.startEngineThread()    
-        
+    
     if not hasattr(level, 'runLevel'):
         tsprint("MAIN: Error:, The level module that has been loaded does does not have a runLevel attribute.")
     #:If the engine is stopped before the level script runs to completion (e.g. by the 

@@ -1,51 +1,33 @@
 import EntityTypes, pygame, time, engine, random, SoundHandler, main, animation, pattern
 
 def getVel():
-    return (random.randrange(-2, 2, 1), random.randrange(-2, 2, 1))
+    x, y = random.randrange(-2, 2, 1), random.randrange(-2, 2, 1)
+    if x==0: x = 1
+    if y==0: y = 1
+    return x,y
 
 def runLevel(en):
-    #SoundHandler.playMusic('un owen.wav')
+    SoundHandler.playMusic('un owen.wav')
     '''
     Takes a reference to the engine and runs the level
     '''
     
-    #en.addEntities(pattern.makeCircle(Fairy.__init__, ((0, 0), (0,0)), 15, 0, (200, 200), 5), engine.enemy)
     
     Fairy.maxx, Fairy.maxy = en.getGameArea()
     FairyBullet.maxx, FairyBullet.maxy = en.getGameArea()
     f = [Fairy((250, 200), getVel()) for i in range(0,5)]
     f.extend([Fairy((75, 200-i*20), getVel()) for i in range(0,10)])
-    en.addEntities(f, engine.enemy)
-    #en.sleepSeconds(3)
-    
-    #f = [Fairy((75, i*20), getVel()) for i in range(0,10)]
-    #f.extend([Fairy((75, 200-i*20), (10, 0)) for i in range(0,10)])
-    #en.addEntities(f, engine.ebullet)
-    
-    #f = [Fairy((75, i*20), getVel()) for i in range(0,10)]
-    #f.extend([Fairy((75, 200-i*20), getVel()) for i in range(0,10)])
-    #en.addEntities(f, engine.ebullet)
-    
-    #f = [Fairy((75, i*20), getVel()) for i in range(0,10)]
-    #f.extend([Fairy((75, 200-i*20), (10, 0)) for i in range(0,10)])
-    #en.addEntities(f, engine.ebullet)
+    en.addEntities(f, engine.enemyType)
     
     f = [Fairy((75, i*20), getVel()) for i in range(0,10)]
-    for fairy in f:
-        fairy.opacity = 128
-#    f.extend([Fairy((75, 200-i*20), (10, 0)) for i in range(0,100)])
-    en.addEntities(f, engine.enemy)
+    en.addEntities(f, engine.enemyType)
     
-    #f = [Fairy((75, i*20), (-10, 0)) for i in range(0,10)]
-    #f.extend([Fairy((75, 200-i*20), (10, 0)) for i in range(0,1000)])
-    #en.addEntities(f)
+    for i in range(100):
     
-    #f = [Fairy((75, i*20), (-10, 0)) for i in range(0,10)]
-    #f.extend([Fairy((75, 200-i*20), (10, 0)) for i in range(0,1000)])
-    #en.addEntities(f)
-    
-    while en.entityCount() > 0:
-        en.sleepSeconds(10)
+        while en.entityCount(engine.enemyType) > 5:
+            en.sleepSeconds(1)
+        f = [Fairy((75, i*20), getVel()) for i in range(0,15)]
+        en.addEntities(f, engine.enemyType)
     
     
 class Fairy(EntityTypes.Enemy):
@@ -54,8 +36,8 @@ class Fairy(EntityTypes.Enemy):
     def __init__(self, pos, vel):
         self.hasReleased = False
         self.tick = 0
-        
-        super(Fairy, self).__init__(animation.Animator(dirStr="./fairyanim"), 0, pos, vel, radius=5)
+        self.canDamage=1
+        super(Fairy, self).__init__(animation.Animator(dirStr="./fairyanim"), 0, pos, vel, radius=30)
     
     def release(self):
         
@@ -64,7 +46,7 @@ class Fairy(EntityTypes.Enemy):
         return [(engine.ebullet, [FairyBullet((self.x, self.y), (self.dx*-3, self.dy*-3)) for i in range(0,3)])]
         
 class FairyBullet(EntityTypes.Bullet):
-    def __init__(self, pos, vel=(0,0), accel=(0,0), radius=0):
+    def __init__(self, pos, vel=(0,0), accel=(0,0), radius=10):
         self.richCounter = 0
         super(FairyBullet, self).__init__(animation.Animator(dirStr="./fairybulletanim"), pos, vel, radius=5) 
     def leftEdge(self):

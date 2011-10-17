@@ -1,0 +1,189 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>level.Fairy : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">l.Fairy(<a href="EntityTypes.Enemy.html">EntityTypes.Enemy</a>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="level.html">level</a></span>
+      
+      <a href="classIndex.html#level.Fairy">View In Hierarchy</a>
+    </p>
+    <div>
+      
+    </div>
+    <div class="undocumented">Undocumented</div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id26">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="level.Fairy.html#__init__">__init__</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="level.Fairy.html#release">release</a></td>
+    <td><span>This will be called after the object has been expired, right before it 
+is removed from gameplay.</span></td>
+  </tr>
+  
+</table>
+      
+        <p>
+          Inherited from <a href="EntityTypes.Enemy.html">Enemy</a>:
+        </p>
+        <table class="children sortable" id="id27">
+  
+  
+<tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Enemy.html#canShoot">canShoot</a></td>
+    <td><span>This will be polled to determine if the object is ready to shoot</span></td>
+  </tr>
+  
+</table>
+      
+        <p>
+          Inherited from <a href="EntityTypes.Entity.html">Entity</a> (via <a href="EntityTypes.Enemy.html">Enemy</a>):
+        </p>
+        <table class="children sortable" id="id28">
+  
+  
+<tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#move">move</a></td>
+    <td><span>This method defines movement (changing the position) of an Entity. Any 
+class that</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#update">update</a></td>
+    <td><span>This is the method where any special logic will be run once per frame to
+update the entity.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#draw">draw</a></td>
+    <td><span>Draw the current frame of animation to a give surface</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#getCurrentSprite">getCurrentSprite</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#leftEdge">leftEdge</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#rightEdge">rightEdge</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#topEdge">topEdge</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#bottomEdge">bottomEdge</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#isCollision">isCollision</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#getDistance">getDistance</a></td>
+    <td><span>Get the distance to a Cartiesial position tuple.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#setPolarVel">setPolarVel</a></td>
+    <td><span>Set the polar velocity of an Entity</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="level.Fairy.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __init__(self, pos, vel):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="EntityTypes.Enemy.html#__init__">EntityTypes.Enemy.__init__</a></div>
+    <div class="undocumented">Undocumented</div>
+  </div>
+</div><div class="function">
+  <a name="level.Fairy.release">
+    
+  </a>
+  <a name="release">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    release(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="EntityTypes.Entity.html#release">EntityTypes.Entity.release</a></div>
+    <div>This will be called after the object has been expired, right before it 
+is removed from gameplay. It should return a list of tuples, where the 
+first entry of each tuple is an engine type constant (e.g. engine.POINT) 
+and the second is a list of items of this type to be added to the game<table class="fieldTable"></table></div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for animation/Character/collision/dialogueB/dialogue/engine/EntityTypes/events/level2/level/main/pattern/player/reimu/SoundHandler/vector, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-10-14 19:13:30.
+    </address>
+  </body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>reimu.PlayerClass : API documentation</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <link href="apidocs.css" type="text/css" rel="stylesheet" />
+    
+    
+  </head>
+  <body>
+    <h1 class="class">r.PlayerClass(<a href="player.Player.html">player.Player</a>) : class documentation</h1>
+    <p>
+      <span id="part">Part of <a href="reimu.html">reimu</a></span>
+      
+      <a href="classIndex.html#reimu.PlayerClass">View In Hierarchy</a>
+    </p>
+    <div>
+      
+    </div>
+    <div class="undocumented">Undocumented</div>
+
+    
+    
+    <div id="splitTables">
+      <table class="children sortable" id="id36">
+  
+  
+<tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="reimu.PlayerClass.html#__init__">__init__</a></td>
+    <td><span>Create a player object. The player should not need to be parameterized 
+(a subclass should be created instead).</span></td>
+  </tr><tr class="method">
+    
+    
+    <td>Method</td>
+    <td><a href="reimu.PlayerClass.html#shoot">shoot</a></td>
+    <td><span>Return a list of bullets to be fired</span></td>
+  </tr>
+  
+</table>
+      
+        <p>
+          Inherited from <a href="player.Player.html">Player</a>:
+        </p>
+        <table class="children sortable" id="id37">
+  
+  
+<tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="player.Player.html#leftEdge">leftEdge</a></td>
+    <td><span>Function to be called when the Player touches or passes the left 
+edge.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="player.Player.html#rightEdge">rightEdge</a></td>
+    <td><span>Function to be called when the Player touches or passes the right 
+edge.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="player.Player.html#topEdge">topEdge</a></td>
+    <td><span>Function to be called when the Player touches or passes the top 
+edge.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="player.Player.html#bottonEdge">bottonEdge</a></td>
+    <td><span>Function to be called when the Player touches or passes the bottom 
+edge.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="player.Player.html#setSounds">setSounds</a></td>
+    <td><span>Set the transition sound for mutliple states. Each item should be a 
+tuple, the first element of which should be player module state constant, 
+and the second should be a pygame.Sound-like object. The sound will be 
+played when the player transitions into the state.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="player.Player.html#getCurrentSprite">getCurrentSprite</a></td>
+    <td><span>Get the current sprite of the player based on the game engine frame 
+count</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="player.Player.html#setAnimations">setAnimations</a></td>
+    <td><span>Set the Animator for multiple states. Each item should be a tuple, the 
+first element of which should be player module state constant, and the 
+second should be an Animator object. The animation will be used when the 
+player is in that state.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="player.Player.html#setSound">setSound</a></td>
+    <td><span>INTERNAL USE</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="player.Player.html#setAnimation">setAnimation</a></td>
+    <td><span>INTERNAL USE</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="player.Player.html#updateDir">updateDir</a></td>
+    <td><span>Set the current animation if the new direction is different from the 
+current one.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="player.Player.html#move">move</a></td>
+    <td><span>Move player based on controlState information and update animation based
+on direction of motion.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="player.Player.html#update">update</a></td>
+    <td><span>INTERNAL USE: General updating, include state transitions</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="player.Player.html#canShoot">canShoot</a></td>
+    <td><span>This method returns whether or not the player can shoot</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="player.Player.html#die">die</a></td>
+    <td><span>Move character to the dying state</span></td>
+  </tr>
+  
+</table>
+      
+        <p>
+          Inherited from <a href="EntityTypes.Entity.html">Entity</a> (via <a href="player.Player.html">Player</a>):
+        </p>
+        <table class="children sortable" id="id38">
+  
+  
+<tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#draw">draw</a></td>
+    <td><span>Draw the current frame of animation to a give surface</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#bottomEdge">bottomEdge</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#isCollision">isCollision</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#getDistance">getDistance</a></td>
+    <td><span>Get the distance to a Cartiesial position tuple.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#release">release</a></td>
+    <td><span>This will be called after the object has been expired, right before it 
+is removed from gameplay.</span></td>
+  </tr><tr class="basemethod">
+    
+    
+    <td>Method</td>
+    <td><a href="EntityTypes.Entity.html#setPolarVel">setPolarVel</a></td>
+    <td><span>Set the polar velocity of an Entity</span></td>
+  </tr>
+  
+</table>
+      
+      
+    </div>
+    
+    
+    
+
+    <div class="function">
+  <a name="reimu.PlayerClass.__init__">
+    
+  </a>
+  <a name="__init__">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    __init__(self, controlState):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="player.Player.html#__init__">player.Player.__init__</a></div>
+    <div>Create a player object. The player should not need to be parameterized 
+(a subclass should be created instead). The player will need a reference to
+a ControlState object.<table class="fieldTable"></table></div>
+  </div>
+</div><div class="function">
+  <a name="reimu.PlayerClass.shoot">
+    
+  </a>
+  <a name="shoot">
+    
+  </a>
+  <div class="functionHeader">
+    
+    def
+    shoot(self):
+    
+  </div>
+  <div class="functionBody">
+    <div class="interfaceinfo">overrides <a href="player.Player.html#shoot">player.Player.shoot</a></div>
+    <div>Return a list of bullets to be fired<table class="fieldTable"></table></div>
+  </div>
+</div>
+    <address>
+      <a href="index.html">API Documentation</a> for animation/Character/collision/dialogueB/dialogue/engine/EntityTypes/events/level2/level/main/pattern/player/reimu/SoundHandler/vector, generated by <a href="http://codespeak.net/~mwh/pydoctor/">pydoctor</a> at 2011-10-14 19:13:30.
+    </address>
+  </body>
+</html>

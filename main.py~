@@ -5,7 +5,7 @@ and level.
 """
 
 import pygame, pygame.event, pygame.image, pygame.display, engine, player
-import EntityTypes, events, sys, threading, SoundHandler, animation
+import EntityTypes, events, sys, threading, Character, reimu, SoundHandler, animation
 from functools import wraps
 import yappi
 
@@ -82,13 +82,12 @@ def mainMethod():
     eventHandler.setQuitHandler(quitHandler, (mainEngine, eventHandler))
     
     #create player and add to engine
-    playerAnim = animation.Animator([''], '.png', '.playeranim')
-    mainPlayer = player.Player(eventHandler.getControlState(), playerAnim, (320, 360)) 
+    #mainPlayer = reimu.PlayerClass(eventHandler.getControlState()) 
     
     eventHandler.startThread()
-    mainEngine.setPlayer(mainPlayer)    
+    #mainEngine.setPlayer(mainPlayer)    
     mainEngine.startEngineThread()    
-        
+    
     if not hasattr(level, 'runLevel'):
         tsprint("MAIN: Error:, The level module that has been loaded does does not have a runLevel attribute.")
     #:If the engine is stopped before the level script runs to completion (e.g. by the 
