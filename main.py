@@ -64,7 +64,8 @@ quitHandler.quitting = False
 
 def mainMethod():
     options, args = getopt.getopt(sys.argv[1:], "qp:w:h:c:", ['help'])
-    global COLORDEPTH
+    global COLORDEPTH, screenW, screenH, profiling, quietMode
+
     if len(args) > 0:
         print "Unknown arguments:"
         print args
