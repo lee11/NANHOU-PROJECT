@@ -201,7 +201,6 @@ class Player(EntityTypes.Entity):
             if self.stateTime >= RESPAWNED_TIME:
                 self.stateTime = 0
                 self.state = OK
-        main.tsprint("State: %d" % (self.state))
         if self.animations[self.state] == None:
             self.doNotDraw = True #will need to add this to EntityTypes
         else: self.animator = self.animations[self.state]

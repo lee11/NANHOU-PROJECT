@@ -4,16 +4,27 @@ The main module that runs the danmaku program. In this version, it just does ini
 and level.
 """
 
-import pygame, pygame.event, pygame.image, pygame.display, engine, player
+import pygame, pygame.event, pygame.image, getopt, pygame.display, engine, player
 import EntityTypes, events, sys, threading, Character, reimu, SoundHandler, animation
 from functools import wraps
-import yappi
 
+#SOME DEFAULT CONSTANTS
 screenW = 640
 screenH = 480
+profiling = False
+COLORDEPTH=32
+quietMode = False
+usage = '''
+NANHOU PROJECT v0.1.0b.
+Usage:
 
-WINSIZE=(screenW,screenH)
-
+-q - quiet mode. No non-eror information will printed out.
+-p - Enable profiling. The next argument must be a path to a file to store profiling data in.
+    If it already exists, it must be a text file with write permissions; it will be appended to.
+-w - Specify screen width
+-h - Specify screen height
+-c - Specify a color depth
+'''
 
 def tsprint(str):
     '''This is a thread-safe print. It used instead of regular print. It locks, so be careful for very large prints.'''
@@ -33,58 +44,55 @@ def quitHandler(engineReference, eventHandler):
     SoundHandler.stopMusic()
     tsprint("MAIN: done")
     pygame.quit()
-    tsprint("MAIN: Stopping profiler and getting data....")
-    fout = open(quitHandler.profilingDest, 'a+')
-    l = yappi.get_stats(yappi.SORTTYPE_TTOTAL,              
-        yappi.SORTORDER_DESCENDING,
-        yappi.SHOW_ALL)
-    yappi.stop()
-    if fout:
-        for s in l:
-            fout.write(s+'\n')
-        fout.close()
-        tsprint("MAIN: Profiling data written.")
-    else:
-        tsprint("Error opening file for profiling data")
+    if profiling:
+        tsprint("MAIN: Stopping profiler and getting data....")
+        fout = open(quitHandler.profilingDest, 'a+')
+        l = yappi.get_stats(yappi.SORTTYPE_TTOTAL,              
+            yappi.SORTORDER_DESCENDING,
+            yappi.SHOW_ALL)
+        yappi.stop()
+        if fout:
+            for s in l:
+                fout.write(s+'\n')
+            fout.close()
+            tsprint("MAIN: Profiling data written.")
+        else:
+            tsprint("Error opening file for profiling data")
     tsprint("MAIN: Exiting!")
 
 quitHandler.quitting = False
 
 def mainMethod():
-
-    #parser = argparse.ArgumentParser(descrption='NANHOU PROJECT v0.1.0b')
-    #parser.add_argument('profile', metavar="PROFILE_DATA", type=str, nargs='*',
-    #help="Determine the file to output YAPPI profiling data. Or YAPPI will be disabled if no argument.")
-    #args = parser.parse_args()
-    #print args
-
-    COLORDEPTH=32
-    quitHandler.profilingDest = 'profile.txt'
-    tsprint('MAIN: Starting YAPPI profiler')
-    yappi.start()
-
+    options, args = getopt.getopt(sys.argv[1:], "qp:w:h:c:", ['help'])
+    global COLORDEPTH
+    if len(args) > 0:
+        print "Unknown arguments:"
+        print args
+        print usage
+        exit()
+    for o, a in options:
+        if o == '-q': quietMode = True
+        elif o == '-p':
+            profiling = True
+            import yappi
+            tsprint('MAIN: Starting YAPPI profiler')
+            yappi.start()
+            quitHandler.profilingDest = a
+        elif o == '-w': screenW = int(a)
+        elif o == '-h': screenH = int(a)
+        elif o== '--help':
+            print usage
+            exit()
+        elif o=='-c':  COLORDEPTH = int(a)
+        
+    WINSIZE=(screenW,screenH)
     level = __import__('level')
-    
-    ######################################
-    #Handle default / keyword parameters
-    '''
-    if 'WINSIZE' in kwargs: WINSIZE = kwargs['WINSIZE']
-    else: WINSIZE = (640,480)
-    
-    if 'COLORDEPTH' in kwargs: COLORDEPTH = kwargs['COLORDEPTH']
-    else: COLORDEPTH = 32
-    
-    if 'level' in kwargs: level = __import__(kwargs['level'])
-    else: level = __import__('level')
-    
-    if 'profilingDest' in kwargs: profilingDest = kwargs['profilingDest']
-    else: profilingDest = 'profile.txt'
-    '''    
+     
     pygame.init()
     print 'winsize',
     print WINSIZE
     screen = pygame.display.set_mode(WINSIZE,pygame.DOUBLEBUF,COLORDEPTH)
-    pygame.display.set_caption("NANHOU PROJECT v0.1.0a")
+    pygame.display.set_caption("NANHOU PROJECT v0.1.0b")
     
     eventHandler = events.EventHandler()
     mainEngine = engine.Engine(screen,eventHandler.getControlState(),WINSIZE)
