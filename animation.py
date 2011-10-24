@@ -35,38 +35,59 @@ class Animation(object):
     '''
     def __init__(self, prefix, postfix = '.png', dirStr = '.'):
         self.image = loadImages(prefix, postfix, dirStr)
-        self.length = len(self.image)    
         
 class AnimationWrapper(object):
     '''
-    An AnimationWrapper wraps state around an Animation. This allows for mutliple animations whose frames can sequenced
+    An AnimationWrapper wraps state around an Animation. This allows for multiple animations whose frames can sequenced
     independently of each other, while using the same images. These should not be instantiated by other modules.
     '''
     def __init__(self, prefix, postfix = '.png', dirStr = '.'):
         self.an = getAnimation(prefix, postfix, dirStr).image
         self.length = len(self.an)
-        self.currentImage = 0
+        self.maxIndex = self.length - 1
+        self.currentImage = -1
+        self.loop = True
+        
     def start(self):
         '''
         This will set the animation to the first frame and reset the frame counter. 
         '''
         self.currentImage = -1
         #return self.an[0]
+        
+    def setLooping(self, value):
+        '''
+        Set if the animation is to loop or stop on the last frame. "value" is a boolean.
+        '''
+        self.loop = value
     
     # Get the next frame in the Animation.
+    # Changed modulo to if block to increase speed.
+    # Added looping toggle.
     def next(self):
         '''
         Move to the next frame in the animation.
         '''
-        self.currentImage += 1
-        return self.an[self.currentImage % self.length]
-
+        
+        if self.loop:
+            self.currentImage += 1
+            if self.currentImage > self.maxIndex:
+                self.currentImage = 0
+            return self.an[currentImage]
+        elif currentIndex == self.maxIndex
+            return self.an[self.maxIndex]
+        else
+            self.currentImage += 1
+            if self.currentImage > self.maxImage:
+                self.currentImage = self.maxImage
+            return self.an[currentIndex]
+            
     # Get the same frame in the Animation.
     def current(self):
         '''
         Get the current frame of the animation.
         '''
-        return self.an[self.currentImage % self.length]
+        return self.an[self.currentImage]
 
 class Animator(object):
     '''
@@ -86,7 +107,7 @@ class Animator(object):
             self.animationList[prefix] = AnimationWrapper(prefix, postfix, dirStr)
 
     # Set the animation display speed. Lower == faster.
-    def setFrameInterval(frames):
+    def setFrameInterval(self, frames):
         '''
         This sets the length of an animation frame in game drawing frames (i.e. the number of game drawing frames that an single frame of the animation will be displayed for). 
         '''
@@ -103,6 +124,12 @@ class Animator(object):
         self.lastKnownPrefix = prefix
         self.startFrame = mainEngine.getFrameCount()
         self.animationList[prefix].start()
+        
+    def setLooping(self, prefix, value):
+        '''
+        Set if the animation is to loop or stop on the last frame. "value" is a boolean.
+        '''
+        self.animationList[prefix].setLooping(value)
         
     # Get the next image in an Animation.
     def getCurrentImage(self, frames):
@@ -143,7 +170,6 @@ def loadImages(prefix, postfix = '.png', dirStr = '.',):
         if os.path.exists(os.path.join(dirStr,prefix + ("%.*d" % (j, 0)) + postfix)):
             nDigits = j
         
-    
     while True:
         itemStr = (prefix + ("%.*d" % (nDigits, i)) + postfix)
         fullPath = os.path.join(dirStr, itemStr)
