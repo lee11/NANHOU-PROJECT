@@ -1,4 +1,4 @@
-import pygame, vector, math
+import pygame, vector, math, graphics
 class Entity(object):
     '''
     An object that exists in 2D game space and may be drawable to the screen. The edge methods define
@@ -52,12 +52,8 @@ class Entity(object):
         if self.opacity >= 255:
             surface.blit(sprite, (self.x-width/2, self.y-height/2))
         else:
-            #http://www.nerdparadise.com/tech/python/pygame/blitopacity/
-            temp = pygame.Surface((640, 480)).convert()
-            temp.blit(surface, (self.x*-1, self.y*-1))
-            temp.blit(sprite, (0,0))
-            temp.set_alpha(self.opacity)
-            surface.blit(temp, (self.x, self.y))
+            graphics.blit_alpha(surface, sprite, (self.x-width/2, self.y-height/2), self.opacity)
+
         
         newdir = vector.getDirectionPrefix(self.dx,self.dy)
             

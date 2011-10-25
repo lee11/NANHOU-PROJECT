@@ -43,7 +43,7 @@ class Fairy(EntityTypes.Enemy):
         
         #must be a list of tuples each containing the type and list to add 
         #Fairy.sound.play()
-        p = pattern.makeCircle(FairyBullet, (((0,0),(0,0))), 15, 0, (self.x, self.y), 2 )
+        p = pattern.makeCircle(FairyBullet, (((0,0),(0,0))), 10, 0, (self.x, self.y), 2 )
         return [(engine.ebullet, p,)]
 #return [(engine.ebullet, [FairyBullet((self.x, self.y), (self.dx*-3, self.dy*-3)) for i in range(0,3)])]
         
