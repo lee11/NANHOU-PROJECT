@@ -1,4 +1,4 @@
-import pygame, vector
+import pygame, vector, math
 class Entity(object):
     '''
     An object that exists in 2D game space and may be drawable to the screen. The edge methods define
@@ -88,8 +88,8 @@ class Entity(object):
         return []
     def setPolarVel(self, r, theta):
         '''Set the polar velocity of an Entity'''
-        self.dx = r*cos(theta)
-        self.dy = r*sin(theta)
+        self.dx = r*math.cos(theta)
+        self.dy = r*math.sin(theta)
 class Enemy(Entity):
     def __init__(self, animator, hp, pos, vel=(0,0), accel=(0,0), radius=0):
         super(Enemy, self).__init__(animator, pos, vel, accel, radius)
