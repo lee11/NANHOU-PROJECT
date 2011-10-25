@@ -73,14 +73,14 @@ class AnimationWrapper(object):
             self.currentImage += 1
             if self.currentImage > self.maxIndex:
                 self.currentImage = 0
-            return self.an[currentImage]
-        elif currentIndex == self.maxIndex
+            return self.an[self.currentImage]
+        elif currentIndex == self.maxIndex:
             return self.an[self.maxIndex]
-        else
+        else:
             self.currentImage += 1
             if self.currentImage > self.maxImage:
                 self.currentImage = self.maxImage
-            return self.an[currentIndex]
+            return self.an[self.currentImage]
             
     # Get the same frame in the Animation.
     def current(self):
