@@ -68,7 +68,6 @@ class AnimationWrapper(object):
         '''
         Move to the next frame in the animation.
         '''
-        
         if self.loop:
             self.currentImage += 1
             if self.currentImage > self.maxIndex:
@@ -140,6 +139,7 @@ class Animator(object):
         # Switching images/frames.
         if self.startFrame == None:
             raise AttributeError("Animation has not been set.")
+        #print (frames, self.startFrame, self.frameInterval)
         if (frames - self.startFrame) > self.frameInterval:
             self.startFrame = frames
             return self.animationList[self.lastKnownPrefix].next()

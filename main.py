@@ -87,7 +87,7 @@ def mainMethod():
         elif o=='-c':  COLORDEPTH = int(a)
         
     WINSIZE=(screenW,screenH)
-    level = __import__('level')
+    level = __import__('level3')
      
     pygame.init()
     print 'winsize',

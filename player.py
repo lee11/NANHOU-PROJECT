@@ -108,8 +108,8 @@ class Player(EntityTypes.Entity):
         '''
         stateCheck(self.state)
         #return self.animations[self.state].getCurrentImage(nFrames)
-        print self.animator.animationList[self.dir].currentImage
-        print self.animator.startFrame
+        #print self.animator.animationList[self.dir].currentImage
+        #print self.animator.startFrame
         return self.animator.getCurrentImage(nFrames)
     
     def setAnimations(self, tList):
@@ -139,6 +139,7 @@ class Player(EntityTypes.Entity):
         if newdir != self.dir:
             self.changedDir = True
             self.dir = newdir
+            
     def move(self):
         '''
         Move player based on controlState information and update animation based on direction of motion.
@@ -184,7 +185,7 @@ class Player(EntityTypes.Entity):
         #if self.changedDir: self.animations[self.state].setAnimation(self.dir)
         if self.changedDir:
             self.animator.setAnimation(self.dir)
-        changedDir = False
+            self.changedDir = False
         
         if self.state == DYING:
             if self.stateTime >= DYING_TIME:
