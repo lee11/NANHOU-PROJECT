@@ -60,7 +60,8 @@ class Player(EntityTypes.Entity):
         #This will be set if the player hits anything
         self.hit = False
         #will need to consider how we are setting the different animations
-        self.animations = [None for i in range(0,N_STATES)]
+        #self.animations = [None for i in range(0,N_STATES)]
+        self.animator = None
         #these are the sounds that will be played when the player 
         #transitions into a given state
         self.transitionSounds = [None for i in range(0,N_STATES)]
@@ -106,7 +107,10 @@ class Player(EntityTypes.Entity):
         Get the current sprite of the player based on the game engine frame count
         '''
         stateCheck(self.state)
-        return self.animations[self.state].getCurrentImage(nFrames)
+        #return self.animations[self.state].getCurrentImage(nFrames)
+        print self.animator.animationList[self.dir].currentImage
+        print self.animator.startFrame
+        return self.animator.getCurrentImage(nFrames)
     
     def setAnimations(self, tList):
         '''
@@ -177,7 +181,10 @@ class Player(EntityTypes.Entity):
         self.stateTime += 1
         #the animation will reset at the beginning if you set animation
         #to the one you are currently playing
-        if self.changedDir: self.animations[self.state].setAnimation(self.dir)
+        #if self.changedDir: self.animations[self.state].setAnimation(self.dir)
+        if self.changedDir:
+            self.animator.setAnimation(self.dir)
+        changedDir = False
         
         if self.state == DYING:
             if self.stateTime >= DYING_TIME:
@@ -201,9 +208,14 @@ class Player(EntityTypes.Entity):
             if self.stateTime >= RESPAWNED_TIME:
                 self.stateTime = 0
                 self.state = OK
-        if self.animations[self.state] == None:
-            self.doNotDraw = True #will need to add this to EntityTypes
-        else: self.animator = self.animations[self.state]
+        #if self.animations[self.state] == None:
+        #    self.doNotDraw = True #will need to add this to EntityTypes
+        #else: self.animator = self.animations[self.state]
+        if self.animator == None:
+            self.doNotDraw = True
+        else:
+            self.doNotDraw = False
+            
     def canShoot(self):
         '''This method returns whether or not the player can shoot'''
         return self.lastShot >= self.shotIntervalTicks and self.controlState.shotPressed() and (self.state == OK or self.state==RESPAWNED)

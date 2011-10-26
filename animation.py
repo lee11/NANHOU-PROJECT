@@ -34,7 +34,7 @@ class Animation(object):
     These should not be instaniated outside of getAnimation. 
     '''
     def __init__(self, prefix, postfix = '.png', dirStr = '.'):
-        self.image = loadImages(prefix, postfix, dirStr)
+        self.images = loadImages(prefix, postfix, dirStr)
         
 class AnimationWrapper(object):
     '''
@@ -42,7 +42,7 @@ class AnimationWrapper(object):
     independently of each other, while using the same images. These should not be instantiated by other modules.
     '''
     def __init__(self, prefix, postfix = '.png', dirStr = '.'):
-        self.an = getAnimation(prefix, postfix, dirStr).image
+        self.an = getAnimation(prefix, postfix, dirStr).images
         self.length = len(self.an)
         self.maxIndex = self.length - 1
         self.currentImage = -1
@@ -113,14 +113,12 @@ class Animator(object):
         '''
         self.frameInterval = frames
         
-    def setAnimation(self, prefix, frameInterval = 1, index=0, loop=True):
+    def setAnimation(self, prefix, loop=True):
         '''
         Set a given animation to play, with a given frame interval. By default, it will also start at the first frame and loop continually after completing.
         '''
         if not prefix in self.animationList:
             raise ValueError("Prefix not in animation list.")
-        self.currentFrame = index
-        self.frameInterval = frameInterval
         self.lastKnownPrefix = prefix
         self.startFrame = mainEngine.getFrameCount()
         self.animationList[prefix].start()
@@ -142,8 +140,8 @@ class Animator(object):
         # Switching images/frames.
         if self.startFrame == None:
             raise AttributeError("Animation has not been set.")
-        if frames - self.startFrame > self.frameInterval:
-	    self.startFrame = frames
+        if (frames - self.startFrame) > self.frameInterval:
+            self.startFrame = frames
             return self.animationList[self.lastKnownPrefix].next()
         else:
             return self.animationList[self.lastKnownPrefix].current()

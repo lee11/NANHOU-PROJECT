@@ -93,6 +93,8 @@ class Enemy(Entity):
         self.canDamage = True
         #Decremented based on damage
         self.hp = hp
+        animator.setFrameInterval(10)
+        animator.setAnimation('i')
     def canShoot(self):
         '''This will be polled to determine if the object is ready to shoot''' 
         return False
@@ -105,6 +107,8 @@ class Bullet(Entity):
         #The amount of damage a bullet is capable of doing. For enemy bullets, any
         #value that evaluates to True means the bullet will kill the player on contact
         self.damage = damage
+        animator.setFrameInterval(5)
+        animator.setAnimation('i')
 
 
 
