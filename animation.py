@@ -4,7 +4,7 @@ in a single directory. Each sequence of the animation is described by a prefix a
 empty strings. Each sequence should consist of files of the form $prefix$n$postfix, where n is a number starting at 0. This module will detect zero-padding for up to five digits, but the padding has to be consistent. Each sequence is uniquely keyed by prefix, postfix, and dirStr. Multiple copies will not be loaded.
 '''
 
-import os, os.path, pygame.image, main
+import os, os.path, pygame.image, io
 import engine, vector
 
 loadedAnimations = {}
@@ -133,10 +133,9 @@ class Animator(object):
         '''
         Get the current image of the animator.
         '''
-        #if self.lastKnownPrefix == None:
-        #    main.tsprint("ANIMATION: Trying to get animation without settings animation sequence.")
-        #    return
-        # Switching images/frames.
+        if self.lastKnownPrefix == None:
+            raise ValueError("ANIMATION ERROR: Trying to get animation without settings animation sequence.")
+         #Switching images/frames.
         if self.startFrame == None:
             raise AttributeError("Animation has not been set.")
         if (frames - self.startFrame) > self.frameInterval:
@@ -174,7 +173,7 @@ def loadImages(prefix, postfix = '.png', dirStr = '.',):
             l.append(pygame.image.load(fullPath))
             foundAny = True
         else:
-            if not foundAny: main.tsprint('ANIMATION: Error, first item %s in animation sequence not found' % itemStr)
+            if not foundAny: io.tserr('ANIMATION ERROR: first item %s in animation sequence not found' % itemStr)
             break
         i += 1
     return l

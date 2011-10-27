@@ -4,8 +4,9 @@ The main module that runs the danmaku program. In this version, it just does ini
 and level.
 """
 
-import pygame, pygame.event, pygame.image, getopt, pygame.display, engine, player
-import EntityTypes, events, sys, threading, Character, reimu, SoundHandler, animation
+import pygame, getopt, engine, player
+import EntityTypes, events, sys, threading, Character
+import reimu, SoundHandler, animation, io
 from functools import wraps
 
 #SOME DEFAULT CONSTANTS
@@ -13,7 +14,6 @@ screenW = 640
 screenH = 480
 profiling = False
 COLORDEPTH=32
-quietMode = False
 usage = '''
 NANHOU PROJECT v0.1.0b.
 Usage:
@@ -26,26 +26,21 @@ Usage:
 -c - Specify a color depth
 '''
 
-def tsprint(str):
-    '''This is a thread-safe print. It used instead of regular print. It locks, so be careful for very large prints.'''
-    tsprint.tsprintLock.acquire()
-    print str
-    tsprint.tsprintLock.release()
-tsprint.tsprintLock = threading.Lock()
+
 def quitHandler(engineReference, eventHandler):
     '''quitHandler will be called at the end of the program as well as the
     handler for a pygame.QUIT event. It sound only run once.'''
     if quitHandler.quitting: return
     quitHandler.quitting = True
-    tsprint('MAIN: quit handler started.')
+    io.tsprint('MAIN: quit handler started.')
     engineReference.stopEngine()
-    tsprint("MAIN: stopping sound and music...")
+    io.tsprint("MAIN: stopping sound and music...")
     SoundHandler.stopAll()
     SoundHandler.stopMusic()
-    tsprint("MAIN: done")
+    io.tsprint("MAIN: done")
     pygame.quit()
     if profiling:
-        tsprint("MAIN: Stopping profiler and getting data....")
+        io.tsprint("MAIN: Stopping profiler and getting data....")
         fout = open(quitHandler.profilingDest, 'a+')
         l = yappi.get_stats(yappi.SORTTYPE_TTOTAL,              
             yappi.SORTORDER_DESCENDING,
@@ -55,28 +50,28 @@ def quitHandler(engineReference, eventHandler):
             for s in l:
                 fout.write(s+'\n')
             fout.close()
-            tsprint("MAIN: Profiling data written.")
+            io.tsprint("MAIN: Profiling data written.")
         else:
-            tsprint("Error opening file for profiling data")
-    tsprint("MAIN: Exiting!")
+            io.tserr("MAIN ERROR: Error opening file for profiling data")
+    io.tsprint("MAIN: Exiting!")
 
 quitHandler.quitting = False
 
 def mainMethod():
     options, args = getopt.getopt(sys.argv[1:], "qp:w:h:c:", ['help'])
-    global COLORDEPTH, screenW, screenH, profiling, quietMode
+    global COLORDEPTH, screenW, screenH, profiling
 
     if len(args) > 0:
-        print "Unknown arguments:"
-        print args
-        print usage
+        io.tserr("Unknown arguments:")
+        io.tserr(args)
+        io.tserr(usage)
         exit()
     for o, a in options:
-        if o == '-q': quietMode = True
+        if o == '-q': io.tsprint.quietMode = True
         elif o == '-p':
             profiling = True
             import yappi
-            tsprint('MAIN: Starting YAPPI profiler')
+            io.tsprint('MAIN: Starting YAPPI profiler')
             yappi.start()
             quitHandler.profilingDest = a
         elif o == '-w': screenW = int(a)
@@ -108,7 +103,7 @@ def mainMethod():
     mainEngine.startEngineThread()    
     
     if not hasattr(level, 'runLevel'):
-        tsprint("MAIN: Error:, The level module that has been loaded does does not have a runLevel attribute.")
+        io.tserr("MAIN ERROR:, The level module that has been loaded does does not have a runLevel attribute.")
     #:If the engine is stopped before the level script runs to completion (e.g. by the 
     #event handler handling a quit event) the engine will be stopped. Any call to any of the 
     #methods that constitute the level-script interface to the engine will return a LevelOverException

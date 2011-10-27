@@ -1,4 +1,4 @@
-import pygame, threading, thread, time, main
+import pygame, threading, thread, time, io
 
 
 #This function decorator will automatically handle synchromizing functions 
@@ -87,7 +87,7 @@ class ControlState:
             elif e.key == pygame.K_LSHIFT:
                 self.keyslow = True
             else:
-                main.tsprint ('CONTROL STATE: unrecognized keypress %d' % e.key)
+                io.tsprint ('CONTROL STATE: unrecognized keypress %d' % e.key)
         elif e.type == pygame.KEYUP:
             if e.key == pygame.K_ESCAPE :
                 self.keypause = False
@@ -157,12 +157,12 @@ class EventHandler(object):
     	t.daemon = True
     	t.start()
         #thread.start_new_thread(self.eventCycle, ())
-        main.tsprint( 'EVENT HANDLER: thread started.')
+        io.tsprint( 'EVENT HANDLER: thread started.')
     def stopThread(self):
-        main.tsprint( 'EVENT HANDLER: stopping thread...')
+        io.tsprint( 'EVENT HANDLER: stopping thread...')
         self.lock.acquire()
         self.quit = True
-        main.tsprint( 'EVENT HANDLER: thread stopped')
+        io.tsprint( 'EVENT HANDLER: thread stopped')
         self.lock.release()
 #TO-DO:
 

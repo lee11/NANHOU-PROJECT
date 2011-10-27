@@ -1,4 +1,4 @@
-import EntityTypes, main, SoundHandler, animation
+import EntityTypes, SoundHandler, animation
 
 #states - these represent the states the player can be in. update() will check to see
 #what state the player is in. 

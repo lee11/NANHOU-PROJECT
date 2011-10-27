@@ -1,5 +1,5 @@
 import pygame
-import EntityTypes, threading, main
+import EntityTypes, threading, io
 import sys, time, events, collision, player, traceback
 from functools import wraps
 
@@ -49,7 +49,6 @@ pauseScreen = pygame.image.load('pausescreen.png')
 
 def checkType(eType):
     if eType <0 or eType >= nTypes:
-                tsprint("ENGINE: Invalid Entity type specified")
                 raise ValueError("ENGINE: Invalid entity type.")
 
 class LevelOverException(Exception):
@@ -109,7 +108,7 @@ class Engine():
         '''append the entity of type eType''' 
         checkType(eType)
                 
-    	main.tsprint('ENGINE: %s added', typeStr[eType])
+    	io.tsprint('ENGINE: %s added', typeStr[eType])
         self.eList[eType].append(entity)
     @sync
     @levelOverCheck
@@ -117,7 +116,7 @@ class Engine():
         '''append the entities in the entity list of type eType''' 
         checkType(eType)
          
-    	main.tsprint( 'ENGINE: %d %s added' % (len(entity), typeStr[eType]))
+    	io.tsprint( 'ENGINE: %d %s added' % (len(entity), typeStr[eType]))
         self.eList[eType].extend(entity)
     def __init__(self, screen, controlState, res=(640,480)):
         self.done = False
@@ -153,7 +152,7 @@ class Engine():
             self.fps = (self.frameCount - self.fpsStartFrames) * 1.0 / (pygame.time.get_ticks() - self.fpsStartTicks) * 1000
             self.fpsStartFrames = self.frameCount
             self.fpsStartTicks = pygame.time.get_ticks()
-            main.tsprint('ENGINE: fps: %d' % self.fps)
+            io.tsprint('ENGINE: fps: %d' % self.fps)
     def startEngineThread(self):
         '''This will start the engine in its own thread.'''
     	t = threading.Thread(target=self.runEngine, args=())
@@ -163,15 +162,15 @@ class Engine():
     
     def stopEngine(self):
         '''This will let the engine finish its current frame and then stop the engine.'''
-    	main.tsprint('ENGINE: stopping engine...')
+    	io.tsprint('ENGINE: stopping engine...')
     	skipLock = self.paused
 	    
         if not skipLock: self.lock.acquire()
         if self.done:
-    	    main.tsprint('ENGINE: Engine is already stopped.')
+    	    io.tsprint('ENGINE: Engine is already stopped.')
         else:
     	    self.done = True
-    	main.tsprint('ENGINE: stopped')
+    	io.tsprint('ENGINE: stopped')
         if not skipLock: self.lock.release()
    
     def setPlayer(self, p):
@@ -287,7 +286,7 @@ class Engine():
             if self.controlState.pausePressed():
                 if self.paused:
                     self.paused = False
-                    main.tsprint("ENGINE: Engine broke out of pause loop while paused!?")
+                    io.tserr("ENGINE ERROR: Engine broke out of pause loop while paused!?")
                 else:
                     self.paused = True
                     #draw screen and wait for unpause
@@ -313,7 +312,7 @@ class Engine():
             try:
                 traceback.extract_tb(self.engineLoop())
             except Exception:
-                main.tsprint ("ENGINE: exception:" +  str(sys.exc_info()[:]))
+                io.tserr("ENGINE: exception caught:" +  str(sys.exc_info()[:]))
                 traceback.print_tb(sys.exc_info()[2])
                 return
     def sleepSeconds(self, sec):
@@ -328,8 +327,8 @@ class Engine():
             #this way the level will end promptly even if the engine
             #quits while the leve is waiting for a long time
             if self.done:
-            	main.tsprint ('ENGINE: engine stopped while level script is sleeping.')
-            	main.tsprint ('ENGINE: Sending exception to level...')
+            	io.tsprint ('ENGINE: engine stopped while level script is sleeping.')
+            	io.tsprint ('ENGINE: Sending exception to level...')
             	raise LevelOverException()
             else:
             	time.sleep(self.idleSleepInterval)
