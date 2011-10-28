@@ -85,7 +85,7 @@ class Player(EntityTypes.Entity):
         '''
         Function to be called when the Player touches or passes the right edge.
         '''
-        self.x = main.screenW - 1
+        self.x = screenW - 1
     def topEdge(self):
         '''
         Function to be called when the Player touches or passes the top edge.
@@ -95,7 +95,7 @@ class Player(EntityTypes.Entity):
         '''
         Function to be called when the Player touches or passes the bottom edge.
         '''
-        self.y = main.screenH - 1    
+        self.y = screenH - 1    
     def setSounds(self, tList):
         '''
         Set the transition sound for mutliple states. Each item should be a tuple, the first element of which should be player module state constant, and the second should be a pygame.Sound-like object. The sound will be played when the player transitions into the state.

@@ -118,7 +118,7 @@ class Engine():
          
     	io.tsprint( 'ENGINE: %d %s added' % (len(entity), typeStr[eType]))
         self.eList[eType].extend(entity)
-    def __init__(self, screen, controlState, res=(640,480)):
+    def __init__(self, screen, controlState):
         self.done = False
         self.paused = False
         self.controlState = controlState
@@ -127,7 +127,6 @@ class Engine():
         self.fps = 0
         self.fpsStartTicks = pygame.time.get_ticks()
         self.fpsStartFrames = 0
-        self.screenWidth, self.screenHeight = res
         self.lastCycle = pygame.time.get_ticks()
         self.screen = screen
         #entity list; one for each type; 
@@ -136,7 +135,8 @@ class Engine():
             self.eList.append([])
         self.lock = threading.Lock()
     def getGameArea(self):
-        '''return a type of screen width, screen height'''
+        '''Deprecated. This information has been moved into the built-ins 
+        screenW and screenH.'''
     	return self.screenWidth, self.screenHeight
     def entityCount(self, eType=None):
         '''Return the conut of a type of entities in the game, or the sum of all types if no
@@ -208,9 +208,9 @@ class Engine():
             for e in l:
                 if e.x < 0:
                     e.leftEdge()
-                elif e.x >= self.screenWidth:
+                elif e.x >= screenW:
                     e.rightEdge()
-                if e.y >= self.screenHeight:
+                if e.y >= screenH:
                     e.bottomEdge()
                 elif e.y < 0:
                     e.topEdge()
@@ -312,8 +312,9 @@ class Engine():
             try:
                 traceback.extract_tb(self.engineLoop())
             except Exception:
-                io.tserr("ENGINE: exception caught:" +  str(sys.exc_info()[:]))
                 traceback.print_tb(sys.exc_info()[2])
+                io.tserr("ENGINE: exception caught:")
+                io.tserr(sys.exc_info()[:])
                 return
     def sleepSeconds(self, sec):
         '''Anything calling this method will block for sec ingame seconds and receive a LevelOverException if the engine is stopped before the time is up..'''

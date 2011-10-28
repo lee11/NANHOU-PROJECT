@@ -6,12 +6,12 @@ and level.
 
 import pygame, getopt, engine, player
 import EntityTypes, events, sys, threading, Character
-import reimu, SoundHandler, animation, io
+import reimu, SoundHandler, animation, io, __builtin__
 from functools import wraps
 
 #SOME DEFAULT CONSTANTS
-screenW = 640
-screenH = 480
+__builtin__.screenW = 640
+__builtin__.screenH = 480
 profiling = False
 COLORDEPTH=32
 usage = '''
@@ -91,16 +91,14 @@ def mainMethod():
     pygame.display.set_caption("NANHOU PROJECT v0.1.0b")
     
     eventHandler = events.EventHandler()
-    mainEngine = engine.Engine(screen,eventHandler.getControlState(),WINSIZE)
-    animation.mainEngine = mainEngine
-    eventHandler.setQuitHandler(quitHandler, (mainEngine, eventHandler))
+    __builtin__.currentEngine = engine.Engine(screen,eventHandler.getControlState())
+    eventHandler.setQuitHandler(quitHandler, (currentEngine, eventHandler))
     
     #create player and add to engine
-    mainPlayer = reimu.PlayerClass(eventHandler.getControlState()) 
-    
+    __builtin__.currentPlayer = reimu.PlayerClass(eventHandler.getControlState()) 
     eventHandler.startThread()
-    mainEngine.setPlayer(mainPlayer)    
-    mainEngine.startEngineThread()    
+    currentEngine.setPlayer(currentPlayer)    
+    currentEngine.startEngineThread()    
     
     if not hasattr(level, 'runLevel'):
         io.tserr("MAIN ERROR:, The level module that has been loaded does does not have a runLevel attribute.")
@@ -109,10 +107,10 @@ def mainMethod():
     #methods that constitute the level-script interface to the engine will return a LevelOverException
     #which will halt execution of the level
     try:
-        level.runLevel(mainEngine)
+        level.runLevel()
     except engine.LevelOverException:
         pass
-    quitHandler(mainEngine, eventHandler)
+    quitHandler(currentEngine, eventHandler)
 if __name__=="__main__":
     mainMethod()
     

@@ -9,8 +9,6 @@ import engine, vector
 
 loadedAnimations = {}
 
-mainEngine = None
-
 def getAnimation(prefix, postfix = '.png', dirStr = '.'):
     '''
     Loads an animation object based on prefix, postfix, dirStr as the key.
@@ -119,7 +117,7 @@ class Animator(object):
         if not prefix in self.animationList:
             raise ValueError("Prefix not in animation list.")
         self.lastKnownPrefix = prefix
-        self.startFrame = mainEngine.getFrameCount()
+        self.startFrame = currentEngine.getFrameCount()
         self.animationList[prefix].start()
         
     def setLooping(self, prefix, value):

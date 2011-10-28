@@ -9,7 +9,7 @@ alphaTemp = None
 
 def blit_alpha(target, source, location, opacity):
     global alphaTemp
-    if alphaTemp == None: alphaTemp = pygame.Surface((640, 480)).convert()
+    if alphaTemp == None: alphaTemp = pygame.Surface((screenW, screenH)).convert()
     x,y = location
     alphaTemp = pygame.Surface((source.get_width(), source.get_height())).convert()
     alphaTemp.blit(target, (-x, -y))
