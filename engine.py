@@ -26,14 +26,7 @@ nTypes = 6
 
 collisionTable = {}
 
-#Draws a number of icons to represent a given quantity
-def drawQuantity(self):
-    pass
 
-#Draw the whole interface
-def drawInterface(self):
-    graphics.blit_text(self.screen, pos, "N enemies")
-    graphics.blit_text(self.screen, pos, "%d" % (self.entityCount(engine.enemyType,) ))
     
 def enemyVpBullet(enemy, pBullet):
     enemy.hp -= pBullet.damage
@@ -96,8 +89,18 @@ will be called by the level script.'''
 
 
 class Engine():
-    #currently these are class field, rather than instance, but that could be changeable.
-    #anything that needs to be persistent between engines will need to be class or an external object
+
+    #Draws a number of icons to represent a given quantity
+    def drawQuantity(self):
+        pass
+
+    #Draw the whole interface
+    def drawInterface(self):
+        graphics.blit_text(self.screen, interfaceTopleft, "N enemies")
+        nEnemies = self.entityCount(enemyType)
+        graphics.blit_text(self.screen, (320, 20), ("%d" % (nEnemies, )))
+        #currently these are class field, rather than instance, but that could be changeable.
+        #anything that needs to be persistent between engines will need to be class or an external object
     
     '''
     The engine handles control, drawing, motion, collision and edge detection. The engine is thread-safe
@@ -209,6 +212,7 @@ class Engine():
         
         #graphics
         self.draw()
+        
         #edge detection
         for l in self.eList:
             for e in l:
@@ -274,6 +278,7 @@ class Engine():
         self.screen.fill(pygame.Color('black'))
         for l in self.eList:
             drawList(l, self.screen, self.frameCount)
+        self.drawInterface()
         pygame.display.update()
 
         
