@@ -12,6 +12,13 @@ from functools import wraps
 #SOME DEFAULT CONSTANTS
 __builtin__.screenW = 640
 __builtin__.screenH = 480
+__builtin__.playAreaW =320
+__builtin__.playAreaH = 640
+
+__builtin__.interfaceTopleft = (320, 0)
+__builtin__.interfaceSize = (320, 480)
+
+
 profiling = False
 COLORDEPTH=32
 usage = '''
