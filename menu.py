@@ -55,8 +55,9 @@ class MainMenu(object):
         y = 200
         for i in range(len(self.options)):
             if i == self.selection:
-            blit_alpha(FONT.render(
-            
+                blit_alpha(FONT.render(self.options[i], true, (255, 255, 255)), SCREEN, (10, 20 + 20 * i), 255);
+            else:
+                blit_alpha(FONT.render(self.options[i], trie, (127, 127, 127)), SCREEN, (10, 20 + 20 * i), 255);
     
 class StartMenu(object):
     def __init__(self, prevMenu)
