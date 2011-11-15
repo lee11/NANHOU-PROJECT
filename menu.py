@@ -56,7 +56,7 @@ class MainMenu(object):
                 graphics.blit_text(SCREEN, (20, 20 + i * 30), self.options[i], (127, 127, 127))
     
 class StartMenu(object):
-    def __init__(self, prevMenu)
+    def __init__(self, prevMenu):
         self.prevMenu = prevMenu
         
     def handlekeys(self, keystate):
@@ -65,7 +65,7 @@ class StartMenu(object):
     def display(self):
     
 class OptionsMenu(object):
-    def __init__(self, prevMenu)
+    def __init__(self, prevMenu):
         self.prevMenu = prevMenu
     
     def handlekeys(self, keystate):
@@ -74,7 +74,7 @@ class OptionsMenu(object):
     def display(self):
     
 class Quit(object):
-    def __init__(self, prevMenu)
+    def __init__(self, prevMenu):
         self.prevMenu = prevMenu
     
     def handlekeys(self, keystate):
