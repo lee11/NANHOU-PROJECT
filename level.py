@@ -19,7 +19,7 @@ def runLevel():
     f = [enemy.Fairy((75, i*20), getVel()) for i in range(0,10)]
     currentEngine.addEntities(f, engine.enemyType)
     
-    for i in range(100):
+    for i in range(10):
     
         while currentEngine.entityCount(engine.enemyType) > 5:
             currentEngine.sleepSeconds(1)
