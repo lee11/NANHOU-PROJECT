@@ -1,6 +1,6 @@
 import pygame
 import EntityTypes, threading, io
-import sys, time, events, collision, player, traceback
+import sys, time, events, collision, player, traceback, graphics
 from functools import wraps
 
 
@@ -32,7 +32,8 @@ def drawQuantity(self):
 
 #Draw the whole interface
 def drawInterface(self):
-    pass
+    graphics.blit_text(self.screen, pos, "N enemies")
+    graphics.blit_text(self.screen, pos, "%d" % (self.entityCount(engine.enemyType,) ))
     
 def enemyVpBullet(enemy, pBullet):
     enemy.hp -= pBullet.damage
