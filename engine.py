@@ -1,7 +1,8 @@
 import pygame
 import EntityTypes, threading, io
-import sys, time, events, collision, player, traceback
+import sys, time, events, collision, player, traceback, graphics
 from functools import wraps
+
 
 '''
 The engine handles control, drawing, motion, collision and edge detection. The engine handles constants and methods for interacting with an engine. 
@@ -24,6 +25,15 @@ typeStr = ['enemy', 'point item', 'player bullet', 'enemy bullet', 'generic enti
 nTypes = 6
 
 collisionTable = {}
+
+#Draws a number of icons to represent a given quantity
+def drawQuantity(self):
+    pass
+
+#Draw the whole interface
+def drawInterface(self):
+    graphics.blit_text(self.screen, pos, "N enemies")
+    graphics.blit_text(self.screen, pos, "%d" % (self.entityCount(engine.enemyType,) ))
     
 def enemyVpBullet(enemy, pBullet):
     enemy.hp -= pBullet.damage
@@ -134,10 +144,6 @@ class Engine():
         for i in range(0,nTypes):
             self.eList.append([])
         self.lock = threading.Lock()
-    def getGameArea(self):
-        '''Deprecated. This information has been moved into the built-ins 
-        screenW and screenH.'''
-    	return self.screenWidth, self.screenHeight
     def entityCount(self, eType=None):
         '''Return the conut of a type of entities in the game, or the sum of all types if no
         type is specified.'''
@@ -208,9 +214,9 @@ class Engine():
             for e in l:
                 if e.x < 0:
                     e.leftEdge()
-                elif e.x >= screenW:
+                elif e.x >= playAreaW:
                     e.rightEdge()
-                if e.y >= screenH:
+                if e.y >= playAreaH:
                     e.bottomEdge()
                 elif e.y < 0:
                     e.topEdge()
