@@ -22,4 +22,4 @@ def blit_alpha(target, source, location, opacity):
     target.blit(alphaTemp, location)
     
 def blit_text(target, pos, text, color=(255,255,255), opacity = 255):
-    blit_alpha(FONT.render(text, True, color), target, pos, opacity)
+    blit_alpha(target, FONT.render(text, True, color), pos, opacity)

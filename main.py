@@ -101,9 +101,22 @@ def mainMethod():
     __builtin__.currentEngine = engine.Engine(screen,eventHandler.getControlState())
     eventHandler.setQuitHandler(quitHandler, (currentEngine, eventHandler))
     
+    eventHandler.startThread()
+    
+    #test menu
+    import menu
+    m = menu.Menu(screen)
+    
+    while True:
+        m.handlekeys(eventHandler.getControlState())
+        m.display()
+        pygame.display.update()
+        
+    
+    
     #create player and add to engine
     __builtin__.currentPlayer = reimu.PlayerClass(eventHandler.getControlState()) 
-    eventHandler.startThread()
+    #eventHandler.startThread()
     currentEngine.setPlayer(currentPlayer)    
     currentEngine.startEngineThread()    
     

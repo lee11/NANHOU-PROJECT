@@ -10,6 +10,7 @@ class Menu(object):
     """
     def __init__(self, screen):
         self.currentMenu = MainMenu()
+        global SCREEN
         SCREEN = screen
     
     def handlekeys(self, keystate):
@@ -63,7 +64,7 @@ class StartMenu(object):
         return self
         
     def display(self):
-    
+        pass
 class OptionsMenu(object):
     def __init__(self, prevMenu):
         self.prevMenu = prevMenu
@@ -72,7 +73,7 @@ class OptionsMenu(object):
         return self
         
     def display(self):
-    
+        pass
 class Quit(object):
     def __init__(self, prevMenu):
         self.prevMenu = prevMenu
@@ -81,5 +82,4 @@ class Quit(object):
         return self
         
     def display(self):
-    
-    
+        pass
