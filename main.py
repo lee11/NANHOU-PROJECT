@@ -39,6 +39,7 @@ def quitHandler(engineReference, eventHandler):
     handler for a pygame.QUIT event. It sound only run once.'''
     if quitHandler.quitting: return
     quitHandler.quitting = True
+    menulock.acquire()
     io.tsprint('MAIN: quit handler started.')
     engineReference.stopEngine()
     io.tsprint("MAIN: stopping sound and music...")
@@ -63,6 +64,31 @@ def quitHandler(engineReference, eventHandler):
     io.tsprint("MAIN: Exiting!")
 
 quitHandler.quitting = False
+
+def startLevel():
+        
+    #create player and add to engine
+    __builtin__.currentPlayer = reimu.PlayerClass(eventHandler.getControlState()) 
+    #eventHandler.startThread()
+    currentEngine.setPlayer(currentPlayer)    
+    currentEngine.startEngineThread()    
+    
+    if not hasattr(level, 'runLevel'):
+        io.tserr("MAIN ERROR:, The level module that has been loaded does does not have a runLevel attribute.")
+    #:If the engine is stopped before the level script runs to completion (e.g. by the 
+    #event handler handling a quit event) the engine will be stopped. Any call to any of the 
+    #methods that constitute the level-script interface to the engine will return a LevelOverException
+    #which will halt execution of the level
+    try:
+        level.runLevel()
+    except engine.LevelOverException:
+        pass
+
+
+
+#A bit of a hack, but we need a way of cleanly stopping the menu before 
+#stopping the graphics system
+menulock = threading.Lock()
 
 def mainMethod():
     options, args = getopt.getopt(sys.argv[1:], "qp:w:h:c:", ['help'])
@@ -89,7 +115,7 @@ def mainMethod():
         elif o=='-c':  COLORDEPTH = int(a)
         
     WINSIZE=(screenW,screenH)
-    level = __import__('level')
+    __builtin__.level = __import__('level')
      
     pygame.init()
     print 'winsize',
@@ -107,29 +133,13 @@ def mainMethod():
     import menu
     m = menu.Menu(screen)
     
-    while True:
+    while not quitHandler.quitting:
+        menulock.acquire()
         m.handlekeys(eventHandler.getControlState())
         m.display()
         pygame.display.update()
-        
+        menulock.release()
     
-    
-    #create player and add to engine
-    __builtin__.currentPlayer = reimu.PlayerClass(eventHandler.getControlState()) 
-    #eventHandler.startThread()
-    currentEngine.setPlayer(currentPlayer)    
-    currentEngine.startEngineThread()    
-    
-    if not hasattr(level, 'runLevel'):
-        io.tserr("MAIN ERROR:, The level module that has been loaded does does not have a runLevel attribute.")
-    #:If the engine is stopped before the level script runs to completion (e.g. by the 
-    #event handler handling a quit event) the engine will be stopped. Any call to any of the 
-    #methods that constitute the level-script interface to the engine will return a LevelOverException
-    #which will halt execution of the level
-    try:
-        level.runLevel()
-    except engine.LevelOverException:
-        pass
     quitHandler(currentEngine, eventHandler)
 if __name__=="__main__":
     mainMethod()
